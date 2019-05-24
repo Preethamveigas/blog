@@ -49,7 +49,7 @@ function Footer({ ...props }) {
           </List>{" "}
         </div>{" "}
         <div className={classes.right}>
-          <Favorite className={classes.icon} /> by for a better web.{" "}
+          <Favorite className={classes.icon} /> for a better web.{" "}
         </div>{" "}
       </div>{" "}
     </footer>
