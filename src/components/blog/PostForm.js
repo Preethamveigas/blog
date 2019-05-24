@@ -13,7 +13,7 @@ import GridItem from "../Grid/GridItem";
 import PropTypes from "prop-types";
 import { addPost } from "../../actions/postActions";
 import { connect } from "react-redux";
-
+import ErrorBoundry from "../ErrorBoundry/errorBoundry";
 import Avatar from "@material-ui/core/Avatar";
 
 import img1 from "../../assets/img/avatar1.jpeg";
@@ -52,61 +52,60 @@ class PostForm extends React.Component {
   };
   messageChanges = e => {};
   render() {
-    const { classes } = this.props;
-    let name = this.props.name;
-
+    const { classes, auth } = this.props;
+    let { name } = auth;
+    console.log(auth);
     if (name === undefined || name === null || String(name).trim() === "") {
       name = "Person";
     }
 
     return (
-      <CardBody>
-        <Cardhead>
-          <Typography variant="caption" align="left">
-            <div style={{ display: "flex", padding: 25, alignItems: "center" }}>
-              {" "}
-              <PermIdentity
-                className={classes.icons}
-                style={{ marginRight: 15 }}
-              />
-              {name}
-            </div>
-          </Typography>
-        </Cardhead>
+      <ErrorBoundry>
         <CardBody>
-          <CustomInput
-            labelText="Enter Your Post Here"
-            id="message"
-            formControlProps={{
-              fullWidth: true,
-              className: classes.textArea
-            }}
-            inputProps={{
-              multiline: true,
-              rows: 5,
-              value: this.state.text
-            }}
-            onInputChange={e => {
-              this.setState({ text: e });
-            }}
-          />
-          <GridContainer>
-            <GridItem xs={12} sm={12} md={4} className={classes.textCenter}>
-              <Typography variant="caption" align="left">
-                {/* button color #81408C */}
-                <Button
-                  color="primary"
-                  round={true}
-                  style={{ backgroundColor: "#81408C !important" }}
-                  onClick={this.OnSubmit}
-                >
-                  Submit
-                </Button>
-              </Typography>
-            </GridItem>
-          </GridContainer>
+          <Cardhead>
+            <Typography variant="caption" align="left">
+              <div
+                style={{ display: "flex", padding: 25, alignItems: "center" }}
+              >
+                {name}
+              </div>
+            </Typography>
+          </Cardhead>
+          <CardBody>
+            <CustomInput
+              labelText="Enter Your Post Here"
+              id="message"
+              formControlProps={{
+                fullWidth: true,
+                className: classes.textArea
+              }}
+              inputProps={{
+                multiline: true,
+                rows: 5,
+                value: this.state.text
+              }}
+              onInputChange={e => {
+                this.setState({ text: e });
+              }}
+            />
+            <GridContainer>
+              <GridItem xs={12} sm={12} md={4} className={classes.textCenter}>
+                <Typography variant="caption" align="left">
+                  {/* button color #81408C */}
+                  <Button
+                    color="primary"
+                    round={true}
+                    style={{ backgroundColor: "#81408C !important" }}
+                    onClick={this.OnSubmit}
+                  >
+                    Submit
+                  </Button>
+                </Typography>
+              </GridItem>
+            </GridContainer>
+          </CardBody>
         </CardBody>
-      </CardBody>
+      </ErrorBoundry>
     );
   }
 }
