@@ -29,6 +29,7 @@ import Button from "../CustomButtons/Button";
 import headerLinksStyle from "../../assets/jss/material-kit-react/components/headerLinksStyle";
 
 const ITEM_HEIGHT = 48;
+// initial test user data
 const options = ["Jhon Doe", "Fred Jhon", "Alfred Smith"];
 
 class RightLinks extends React.Component {
@@ -48,6 +49,7 @@ class RightLinks extends React.Component {
   };
 
   componentDidMount() {
+    // if there is not recored or auth token attempt to login
     if (localStorage.getItem("currentUser") === null) {
       this.setState({ selected: options[0] });
       this.props.loginUser(1);
@@ -55,6 +57,8 @@ class RightLinks extends React.Component {
   }
 
   handleSubMenu = i => {
+    // setting value of anchor element to the state
+    // trigger to the click event
     this.setState({ selected: options[i], anchorEl: null });
     this.props.loginUser(i);
   };
@@ -69,6 +73,7 @@ class RightLinks extends React.Component {
     const { anchorEl, selected, loading } = this.state;
     const open = Boolean(anchorEl);
 
+    /// these expressions Ned to chng
     let img;
     if (selected === "Fred Jhon") {
       img = img1;
