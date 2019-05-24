@@ -1,3 +1,3 @@
-export const ENDPOINT = process.env.MAIN_URI;
-export const LIKEEND = process.env.LIKE_SERV;
-export const COMMENTEND = process.env.COMMENT_SERV;
+export const ENDPOINT = "http://localhost:5000/";
+export const LIKEEND = "http://localhost:5000/";
+export const COMMENTEND = "http://localhost:5000/";

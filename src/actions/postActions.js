@@ -18,10 +18,6 @@ export const checkLikeService = DATA => dispatch => {
   axios
     .get(`${LIKEEND}api/posts/`)
     .then(res => {
-      console.log(
-        "-------------------check service like----------------------"
-      );
-      console.log(res);
       if (res.status === 200) {
         dispatch({
           type: CHECK_LIKE_SERVICE,
@@ -45,14 +41,9 @@ export const checkLikeService = DATA => dispatch => {
 // Check server comment
 
 export const checkCommentService = () => dispatch => {
-  console.log("comment Serice------");
   axios
     .get(`${COMMENTEND}api/posts/`)
     .then(res => {
-      console.log(
-        "-------------------check service comment----------------------"
-      );
-      console.log(res);
       if (res.status === 200) {
         dispatch({
           type: CHECK_COMMENT_SERVICE,
@@ -78,43 +69,52 @@ export const checkCommentService = () => dispatch => {
 export const addPost = postData => dispatch => {
   dispatch(clearErrors());
 
-  console.log(postData);
-  console.log(`${ENDPOINT}api/posts/add`);
   axios
     .post(`${ENDPOINT}api/posts/add`, postData)
-    .then(res =>
-      dispatch({
-        type: ADD_POST,
-        payload: res.data
-      })
-    )
-    .catch(err =>
+    .then(res => {
+      if (res.status === 2000) {
+        dispatch({
+          type: ADD_POST,
+          payload: res.data
+        });
+      }
+    })
+    .catch(err => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response
-      })
-    );
+      });
+    });
 };
 
 // Get Posts
 export const getPosts = () => dispatch => {
   dispatch(setPostLoading());
-  console.log(`${ENDPOINT}api/posts`);
+
   axios
     .get(`${ENDPOINT}api/posts`)
     .then(res => {
-      console.log(res);
-      dispatch({
-        type: GET_POSTS,
-        payload: res.data
-      });
+      if (res.status === 200) {
+        console.log(res);
+        dispatch({
+          type: GET_POSTS,
+          payload: res.data
+        });
+      }
     })
-    .catch(err =>
+    .catch(err => {
+      if (err.response !== undefined) {
+        dispatch({
+          type: GET_POSTS,
+          payload: err.response
+        });
+      }
+      err.response = "Network err";
       dispatch({
         type: GET_POSTS,
-        payload: null
-      })
-    );
+        payload: err
+      });
+    });
 };
 
 // Get Post
@@ -122,18 +122,28 @@ export const getPost = id => dispatch => {
   dispatch(setPostLoading());
   axios
     .get(`${ENDPOINT}/api/posts/${id}`)
-    .then(res =>
-      dispatch({
-        type: GET_POST,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispatch({
-        type: GET_POST,
-        payload: null
-      })
-    );
+    .then(res => {
+      if (res.status === 200) {
+        dispatch({
+          type: GET_POST,
+          payload: res.data
+        });
+      }
+    })
+    .catch(err => {
+      if (err.response !== undefined) {
+        dispatch({
+          type: GET_POST,
+          payload: null
+        });
+      } else {
+        err.response = "Network Error";
+        dispatch({
+          type: GET_POST,
+          payload: null
+        });
+      }
+    });
 };
 
 // Delete Post
@@ -146,59 +156,84 @@ export const deletePost = id => dispatch => {
         payload: id
       })
     )
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+    .catch(err => {
+      if (err.response !== undefined) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        });
+      } else {
+        err.response = "Network error";
+        dispatch({
+          type: GET_ERRORS,
+          payload: err.response.data
+        });
+      }
+    });
 };
 
 // Add Like
 export const addLike = (id, LikeData) => dispatch => {
-  console.log(`${ENDPOINT}api/posts/like/${String(id)}`);
-  console.log(LikeData);
   axios
     .post(`${ENDPOINT}api/posts/like/${String(id)}`, LikeData)
     .then(res => dispatch(getPosts()))
     .catch(err => {
-      console.log(err);
-      dispatch({
-        type: GET_ERRORS,
-        payload: err
-      });
+      if (err.response !== undefined) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: err
+        });
+      } else {
+        err.response = "Network Error";
+        dispatch({
+          type: GET_ERRORS,
+          payload: err
+        });
+      }
     });
 };
 
 // Remove Like
 export const removeLike = (id, LikeData) => dispatch => {
-  console.log(LikeData);
   axios
     .post(`${ENDPOINT}api/posts/unlike/${id}`, LikeData)
     .then(res => dispatch(getPosts()))
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+    .catch(err => {
+      if (err.response !== undefined) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: err
+        });
+      } else {
+        err.response = "Network Error";
+        dispatch({
+          type: GET_ERRORS,
+          payload: err
+        });
+      }
+    });
 };
 
 // Add Comment
 export const addComment = (postId, commentData) => dispatch => {
-  // console.log("adding comment");
-  // console.log(postId, commentData);
-  // return false;
   dispatch(clearErrors());
   axios
     .post(`${ENDPOINT}api/posts/comment/${String(postId)}`, commentData)
     .then(res => dispatch(getPosts()))
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+    .catch(err => {
+      if (err.response !== undefined) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: err
+        });
+      } else {
+        err.response = "Network Error";
+        dispatch({
+          type: GET_ERRORS,
+          payload: err
+        });
+      }
+    });
 };
 
 // Delete Comment
@@ -211,12 +246,20 @@ export const deleteComment = (postId, commentId) => dispatch => {
         payload: res.data
       })
     )
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+    .catch(err => {
+      if (err.response !== undefined) {
+        dispatch({
+          type: GET_ERRORS,
+          payload: err
+        });
+      } else {
+        err.response = "Network Error";
+        dispatch({
+          type: GET_ERRORS,
+          payload: err
+        });
+      }
+    });
 };
 
 // Set loading state
