@@ -16,7 +16,7 @@ import {
 
 export const checkLikeService = DATA => dispatch => {
   axios
-    .get(`${LIKEEND}api/posts/`)
+    .get(`${LIKEEND}`)
     .then(res => {
       if (res.status === 200) {
         dispatch({
@@ -42,7 +42,7 @@ export const checkLikeService = DATA => dispatch => {
 
 export const checkCommentService = () => dispatch => {
   axios
-    .get(`${COMMENTEND}api/posts/`)
+    .get(`${COMMENTEND}`)
     .then(res => {
       if (res.status === 200) {
         dispatch({
