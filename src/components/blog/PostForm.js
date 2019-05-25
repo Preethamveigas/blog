@@ -56,7 +56,7 @@ class PostForm extends React.Component {
     let { name } = auth;
     console.log(auth);
     if (name === undefined || name === null || String(name).trim() === "") {
-      name = "Person";
+      name = "";
     }
 
     return (
@@ -67,6 +67,14 @@ class PostForm extends React.Component {
               <div
                 style={{ display: "flex", padding: 25, alignItems: "center" }}
               >
+                <Avatar
+                  alt={name}
+                  src={require("../../assets/img/avatar3.jpeg")}
+                  className={classes.bigAvatar}
+                  style={{ width: 30, height: 30, marginRight: 5 }}
+                >
+                  {" "}
+                </Avatar>
                 {name}
               </div>
             </Typography>

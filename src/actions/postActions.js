@@ -105,13 +105,13 @@ export const getPosts = () => dispatch => {
     .catch(err => {
       if (err.response !== undefined) {
         dispatch({
-          type: GET_POSTS,
+          type: GET_ERRORS,
           payload: err.response
         });
       }
       err.response = "Network err";
       dispatch({
-        type: GET_POSTS,
+        type: GET_ERRORS,
         payload: err
       });
     });
@@ -133,13 +133,13 @@ export const getPost = id => dispatch => {
     .catch(err => {
       if (err.response !== undefined) {
         dispatch({
-          type: GET_POST,
+          type: GET_ERRORS,
           payload: null
         });
       } else {
         err.response = "Network Error";
         dispatch({
-          type: GET_POST,
+          type: GET_ERRORS,
           payload: null
         });
       }

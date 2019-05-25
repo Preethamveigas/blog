@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import PostItem from "./postItem";
+import ErrorBoundry from "../ErrorBoundry/errorBoundry";
 
 class PostFeed extends Component {
   render() {
@@ -9,7 +10,13 @@ class PostFeed extends Component {
       return false;
     }
 
-    return posts.map(post => <PostItem key={post._id} post={post} />);
+    return posts.map(post => {
+      return (
+        <ErrorBoundry key={post._id}>
+          <PostItem key={post._id} post={post} />;
+        </ErrorBoundry>
+      );
+    });
   }
 }
 

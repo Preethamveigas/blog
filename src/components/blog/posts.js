@@ -7,7 +7,7 @@ import PostFeed from "./postFeed";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { loginUser } from "../../actions/authActions";
-
+import ErrorBoundry from "../ErrorBoundry/errorBoundry";
 import {
   getPosts,
   checkCommentService,
@@ -45,22 +45,29 @@ class Posts extends React.Component {
 
     if (posts === null && loading) {
       postContents = <Spinner />;
-    }
-    if (typeof posts === "Array" && posts.length < 1) {
+    } else if (typeof posts === "object" && Object.keys(posts).length === 0) {
+      console.log(typeof posts);
+
       postContents = <Spinner />;
     } else {
+      console.log(Object.keys(posts).length);
+      console.log(posts);
       checkd = true;
       postContents = (
         <CardBody>
-          <PostFeed posts={posts} />
+          <ErrorBoundry>
+            <PostFeed posts={posts} />
+          </ErrorBoundry>
         </CardBody>
       );
     }
     return (
-      <Card className={classes.container}>
-        <PostForm />
-        {postContents}
-      </Card>
+      <ErrorBoundry>
+        <Card className={classes.container}>
+          <PostForm />
+          {postContents}
+        </Card>
+      </ErrorBoundry>
     );
   }
 }
