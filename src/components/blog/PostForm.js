@@ -5,7 +5,7 @@ import Cardhead from "../Card/CardHeader";
 import CardFoot from "../Card/CardFooter";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Typography from "@material-ui/core/Typography";
-import { PermIdentity, People } from "@material-ui/icons";
+import { PermIdentity } from "@material-ui/icons";
 import CustomInput from "../CustomInput/CustomInput";
 import Button from "../CustomButtons/Button";
 import GridContainer from "../Grid/GridContainer";
@@ -67,14 +67,8 @@ class PostForm extends React.Component {
               <div
                 style={{ display: "flex", padding: 25, alignItems: "center" }}
               >
-                <Avatar
-                  alt={name}
-                  src={require("../../assets/img/avatar3.jpeg")}
-                  className={classes.bigAvatar}
-                  style={{ width: 30, height: 30, marginRight: 5 }}
-                >
-                  {" "}
-                </Avatar>
+                <PermIdentity className={classes.icons} />
+
                 {name}
               </div>
             </Typography>
